@@ -11,12 +11,14 @@ import CoreData
 struct EquipmentView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
+    @State private var searchText: String = ""
+    
     @State private var equipmentRecords: [EquipmentLossesModel] = []
     @State private var personnelsRecords: [PersonnelLossesModel] = []
     
-    let urlLossesEquipment : String = "https://raw.githubusercontent.com/MacPaw/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_equipment.json"
+    let urlLossesEquipment: String = "https://raw.githubusercontent.com/MacPaw/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_equipment.json"
     
-    let urlLossesPersonnel : String = "https://raw.githubusercontent.com/MacPaw/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_personnel.json"
+    let urlLossesPersonnel: String = "https://raw.githubusercontent.com/MacPaw/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_personnel.json"
 
     var body: some View {
         TabView {
@@ -61,18 +63,32 @@ struct EquipmentView: View {
     
     private func cellsEquipView(equipmentRecords: [EquipmentLossesModel]) -> AnyView {
         return AnyView(
-            List {
-                ForEach(equipmentRecords) { record in
-                    OneEquipCellView(oneRecordEquip: record)
+            Group {
+                TextField("Search by date or day...", text: $searchText)
+                    .padding(5)
+                    .background(Color.gray.opacity(1/5))
+                    .cornerRadius(8)
+                    .padding(.horizontal)
+                List {
+                    ForEach(filteredEquipmentRecords()) { record in
+                        OneEquipCellView(oneRecordEquip: record)
+                    }
                 }
             })
     }
     
     private func cellsPersonsView(personnelsRecords: [PersonnelLossesModel]) -> AnyView {
         return AnyView(
-            List {
-                ForEach(personnelsRecords) { record in
-                    OnePersonCellView(oneRecordPerson: record)
+            Group {
+                TextField("Search by date or day...", text: $searchText)
+                    .padding(5)
+                    .background(Color.gray.opacity(1/5))
+                    .cornerRadius(8)
+                    .padding(.horizontal)
+                List {
+                    ForEach(filteredPersonnelsRecords()) { record in
+                        OnePersonCellView(oneRecordPerson: record)
+                    }
                 }
             })
     }
@@ -95,6 +111,19 @@ struct EquipmentView: View {
                 }
             }
         }
+    
+    func filteredEquipmentRecords() -> [EquipmentLossesModel] {
+        return searchText == "" ? equipmentRecords : equipmentRecords.filter {
+            $0.date.contains(searchText) || "\($0.day)".contains(searchText)
+        }
+    }
+
+    func filteredPersonnelsRecords() -> [PersonnelLossesModel] {
+        return searchText == "" ? personnelsRecords : personnelsRecords.filter {
+            $0.date.contains(searchText) || "\($0.day)".contains(searchText)
+        }
+    }
+
 }
 
 struct EquipmentView_Previews: PreviewProvider {

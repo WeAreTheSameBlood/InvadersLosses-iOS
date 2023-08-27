@@ -49,6 +49,7 @@ class EquipmentLossesModel: ObservableObject, Identifiable, Codable {
 extension EquipmentLossesModel {
     var props: [(String, Int?)] {
         return [
+            ("Day of war", day),
             ("Aircraft", aircraft),
             ("Helicopter", helicopter),
             ("Tank", tank),
@@ -86,6 +87,7 @@ class PersonnelLossesModel: ObservableObject, Identifiable, Codable {
 extension PersonnelLossesModel {
     var props: [(String, String?)] {
         return [
+            ("Day of war", day.description),
             ("Personnel", personnel?.description ?? "---"),
             ("Personnel*", personnelStr?.capitalized ?? "---"),
             ("POW", POW?.description ?? "---"),
