@@ -23,14 +23,14 @@ struct EquipmentView: View {
             defaultViewPresent(navTitle: "Equioment Losses",
                                urlDataAdress: urlLossesEquipment)
             .tabItem {
-                Image(systemName: "circle")
+                Image(systemName: "list.star")
                 Text("Equipment")
             }
 
             defaultViewPresent(navTitle: "Personnel Losses",
                                urlDataAdress: urlLossesPersonnel)
             .tabItem {
-                Image(systemName: "list.bullet")
+                Image(systemName: "person.3.sequence.fill")
                 Text("Personnel")
             }
         }
@@ -45,9 +45,8 @@ struct EquipmentView: View {
                     ? AnyView(
                         VStack {
                             Text("Connection error")
-                            Button("Reload", action: {
-                                loadRecords(urlAddressOfData: urlDataAdress)
-                            }).buttonStyle(.bordered)
+                            Button("Reload", action: { loadRecords() })
+                                .buttonStyle(.bordered)
                         }
                     )
                     : AnyView(
@@ -56,7 +55,7 @@ struct EquipmentView: View {
                         : cellsPersonsView(personnelsRecords: personnelsRecords)
                     )}
                 .navigationTitle(navTitle)
-                .onAppear{loadRecords(urlAddressOfData: urlDataAdress)}
+                .onAppear{loadRecords()}
             })
     }
     
@@ -78,11 +77,20 @@ struct EquipmentView: View {
             })
     }
     
-    private func loadRecords(urlAddressOfData: String) {
-        UrlLoadService.shared.fetchEquipJsonFromUrl (urlAddress: urlAddressOfData) { fetchedRecords in
+    private func loadRecords() {
+        UrlLoadService.shared.fetchEquipJsonFromUrl (urlAddress: urlLossesEquipment) { fetchedRecords in
                 if let fetchedRecords = fetchedRecords {
                     DispatchQueue.main.async {
                         self.equipmentRecords = fetchedRecords.sorted { $0.date < $1.date }
+                        
+                    }
+                }
+            }
+        UrlLoadService.shared.fetchPersonsJsonFromUrl (urlAddress: urlLossesPersonnel) { fetchedRecords in
+                if let fetchedRecords = fetchedRecords {
+                    DispatchQueue.main.async {
+                        self.personnelsRecords = fetchedRecords.sorted { $0.date < $1.date }
+                        
                     }
                 }
             }

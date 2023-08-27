@@ -12,7 +12,7 @@ struct OneEquipCellView: View {
     @ObservedObject var oneRecordEquip : EquipmentLossesModel
     
     var body: some View {
-        NavigationLink(destination: DetailsView(oneRecord: oneRecordEquip)) {
+        NavigationLink(destination: DetailsEquipView(oneRecord: oneRecordEquip)) {
             HStack {
                 Text("Day of war: \(oneRecordEquip.day)")
                 Spacer()
@@ -27,7 +27,7 @@ struct OnePersonCellView: View {
     @ObservedObject var oneRecordPerson : PersonnelLossesModel
     
     var body: some View {
-        NavigationLink(destination: DetailsViewP(oneRecord: oneRecordPerson)) {
+        NavigationLink(destination: DetailsPersonsView(oneRecord: oneRecordPerson)) {
             HStack {
                 Text("Day of war: \(oneRecordPerson.day)")
                 Spacer()

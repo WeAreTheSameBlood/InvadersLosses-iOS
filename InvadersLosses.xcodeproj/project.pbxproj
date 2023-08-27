@@ -47,6 +47,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		371525172A9BF32D00E65745 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				372BBEAE2A9AC26400E35292 /* Formatter.swift */,
+				372BBE9C2A9AAE0A00E35292 /* Persistence.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		372BBE872A9AAE0900E35292 = {
 			isa = PBXGroup;
 			children = (
@@ -67,15 +76,14 @@
 		372BBE922A9AAE0900E35292 /* InvadersLosses */ = {
 			isa = PBXGroup;
 			children = (
+				371525172A9BF32D00E65745 /* Util */,
 				372BBEA92A9AB45300E35292 /* Services */,
 				372BBEA72A9AB21100E35292 /* Models.swift */,
 				372BBEA62A9AB1FD00E35292 /* Views */,
 				372BBE932A9AAE0900E35292 /* InvadersLossesApp.swift */,
 				372BBE972A9AAE0A00E35292 /* Assets.xcassets */,
-				372BBE9C2A9AAE0A00E35292 /* Persistence.swift */,
 				372BBE9E2A9AAE0A00E35292 /* InvadersLosses.xcdatamodeld */,
 				372BBE992A9AAE0A00E35292 /* Preview Content */,
-				372BBEAE2A9AC26400E35292 /* Formatter.swift */,
 			);
 			path = InvadersLosses;
 			sourceTree = "<group>";

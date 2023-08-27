@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DetailsView: View {
+struct DetailsEquipView: View {
     
     @ObservedObject var oneRecord : EquipmentLossesModel
     
@@ -34,7 +34,7 @@ struct DetailsView: View {
     }
 }
 
-struct DetailsViewP: View {
+struct DetailsPersonsView: View {
     
     @ObservedObject var oneRecord : PersonnelLossesModel
     

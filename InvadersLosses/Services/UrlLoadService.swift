@@ -42,6 +42,7 @@ class UrlLoadService {
             
         }.resume()
     }
+    
     public func fetchPersonsJsonFromUrl(urlAddress: String, completion: @escaping ([PersonnelLossesModel]?) -> Void) {
         guard let url = URL(string: urlAddress) else {
             print("Invalid URL")

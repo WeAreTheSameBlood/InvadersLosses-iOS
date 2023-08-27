@@ -7,13 +7,6 @@
 
 import Foundation
 
-//protocol BasicLossesModelProtocol: ObservableObject, Identifiable, Codable {
-//    var id: String { get }
-//    var date: String { get }
-//    var day: Int { get }
-//    var props: [(String, Int?)] { get }
-//}
-
 class EquipmentLossesModel: ObservableObject, Identifiable, Codable {
     
     var id: String { date }
@@ -38,7 +31,6 @@ class EquipmentLossesModel: ObservableObject, Identifiable, Codable {
     
     
     enum CodingKeys: String, CodingKey {
-        
         case date, day, aircraft, helicopter, tank, APC
         case fieldArtillery = "field artillery"
         case MRL
@@ -81,24 +73,22 @@ class PersonnelLossesModel: ObservableObject, Identifiable, Codable {
     var id: String { date }
     let date: String
     let day: Int
-    let personnel: String?
-    let personnelCount: Int?
+    let personnel: Int?
+    let personnelStr: String?
     let POW: Int?
     
     enum CodingKeys: String, CodingKey {
         case date, day, personnel
-        case personnelCount = "personnel*"
+        case personnelStr = "personnel*"
         case POW
     }
-    
-    var props: [(String, Int?)] {
+}
+extension PersonnelLossesModel {
+    var props: [(String, String?)] {
         return [
-            ("Personnel", personnelCount),
-            ("Pow", POW),
+            ("Personnel", personnel?.description ?? "---"),
+            ("Personnel*", personnelStr?.capitalized ?? "---"),
+            ("POW", POW?.description ?? "---"),
         ]
-    }
-    
-    var propsPersonnel: [(String, String?)] {
-        return [("Personnel*", personnel)]
     }
 }
