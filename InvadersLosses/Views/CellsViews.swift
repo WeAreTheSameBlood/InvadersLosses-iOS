@@ -36,3 +36,18 @@ struct OnePersonCellView: View {
         }
     }
 }
+
+struct OneOryxCellView: View {
+    
+    @ObservedObject var oneRecordOryx : OryxLossesModel
+    
+    var body: some View {
+        NavigationLink(destination: DetailsOryxView(oneRecord: oneRecordOryx)) {
+            HStack {
+                Text("Model: \(oneRecordOryx.model)")
+                Spacer()
+                Text("Losses: \(oneRecordOryx.lossesTotal?.description ?? "---")")
+            }.padding(5)
+        }
+    }
+}

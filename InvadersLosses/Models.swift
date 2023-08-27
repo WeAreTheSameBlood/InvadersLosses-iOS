@@ -45,8 +45,7 @@ class EquipmentLossesModel: ObservableObject, Identifiable, Codable {
         case vehiclesAndFuelTanks = "vehicles and fuel tanks"
         case cruiseMissiles = "cruise missiles"
     }
-}
-extension EquipmentLossesModel {
+    
     var props: [(String, Int?)] {
         return [
             ("Day of war", day),
@@ -83,14 +82,40 @@ class PersonnelLossesModel: ObservableObject, Identifiable, Codable {
         case personnelStr = "personnel*"
         case POW
     }
-}
-extension PersonnelLossesModel {
+    
     var props: [(String, String?)] {
         return [
             ("Day of war", day.description),
             ("Personnel", personnel?.description ?? "---"),
             ("Personnel*", personnelStr?.capitalized ?? "---"),
             ("POW", POW?.description ?? "---"),
+        ]
+    }
+}
+
+class OryxLossesModel: ObservableObject, Identifiable, Codable {
+    
+    var id: String {model}
+    let equipmentOryx: String?
+    let model: String
+    let manufacturer: String?
+    let lossesTotal: Int?
+    let equipmentUa: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case equipmentOryx = "equipment_oryx"
+        case model, manufacturer
+        case lossesTotal = "losses_total"
+        case equipmentUa = "equipment_ua"
+    }
+    
+    var props: [(String, String?)] {
+        return [
+            ("Equipment Oryx", equipmentOryx),
+            ("Model", model),
+            ("Manufacturer", manufacturer),
+            ("Losses Total", lossesTotal?.description ?? "---"),
+            ("Equipment UA", equipmentUa)
         ]
     }
 }

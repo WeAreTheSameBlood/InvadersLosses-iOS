@@ -58,3 +58,28 @@ struct DetailsPersonsView: View {
         }
     }
 }
+
+struct DetailsOryxView: View {
+    
+    @ObservedObject var oneRecord : OryxLossesModel
+    
+    var body: some View {
+        VStack {
+            List {
+                ForEach(oneRecord.props, id: \.0) { prop in
+                    HStack {
+                        HStack {
+                            Text("\(prop.0):")
+                            Spacer()
+                        }
+                        HStack {
+                            Spacer()
+                            Text("\(prop.1?.description ?? "---")")
+                            Spacer()
+                        }
+                    }
+                }
+            }.navigationTitle("Info for \(oneRecord.model)")
+        }
+    }
+}

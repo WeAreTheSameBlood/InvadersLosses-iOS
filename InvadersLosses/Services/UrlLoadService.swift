@@ -73,4 +73,35 @@ class UrlLoadService {
             
         }.resume()
     }
+    
+    public func fetchOryxJsonFromUrl(urlAddress: String, completion: @escaping ([OryxLossesModel]?) -> Void) {
+        guard let url = URL(string: urlAddress) else {
+            print("Invalid URL")
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Error fetching data:", error)
+                completion(nil)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data returned")
+                completion(nil)
+                return
+            }
+
+            do {
+                let records = try JSONDecoder().decode([OryxLossesModel].self, from: data)
+                completion(records)
+            } catch {
+                print("Decoding error:", error)
+                completion(nil)
+            }
+            
+        }.resume()
+    }
 }
