@@ -13,7 +13,7 @@ struct InvadersLossesApp: App {
 
     var body: some Scene {
         WindowGroup {
-            EquipmentView()
+            GeneralView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

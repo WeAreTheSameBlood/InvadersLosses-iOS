@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct EquipmentView: View {
+struct GeneralView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @State private var searchText: String = ""
@@ -18,27 +18,23 @@ struct EquipmentView: View {
     @State private var personnelsRecords: [PersonnelLossesModel] = []
     @State private var oryxRecords: [OryxLossesModel] = []
     
-    let urlLossesEquipment: String = "https://raw.githubusercontent.com/MacPaw/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_equipment.json"
-    
-    let urlLossesPersonnel: String = "https://raw.githubusercontent.com/MacPaw/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_personnel.json"
-    
-    let urlLossesEqOryx: String = "https://raw.githubusercontent.com/MacPaw/2022-Ukraine-Russia-War-Dataset/main/data/russia_losses_equipment_oryx.json"
+
 
     var body: some View {
         TabView {
-            defaultViewPresent(navTitle: "Equipment Losses", urlDataAdress: urlLossesEquipment)
+            defaultViewPresent(navTitle: "Equipment Losses", urlDataAdress: ConstURLs.urlLossesEquipment)
                 .tabItem {
                     Image(systemName: "list.star")
                     Text("Equipment")
                 }
 
-            defaultViewPresent(navTitle: "Personnel Losses", urlDataAdress: urlLossesPersonnel)
+            defaultViewPresent(navTitle: "Personnel Losses", urlDataAdress: ConstURLs.urlLossesPersonnel)
                 .tabItem {
                     Image(systemName: "person.3.sequence.fill")
                     Text("Personnel")
                 }
             
-            defaultViewPresent(navTitle: "Equipment By Oryx", urlDataAdress: urlLossesEqOryx)
+            defaultViewPresent(navTitle: "Equipment By Oryx", urlDataAdress: ConstURLs.urlLossesEqOryx)
                 .tabItem {
                     Image(systemName: "steeringwheel.slash")
                     Text("By Oryx")
@@ -66,7 +62,7 @@ struct EquipmentView: View {
             })
     }
     
-    func contentView(navTitle: String) -> AnyView {
+    private func contentView(navTitle: String) -> AnyView {
         switch navTitle {
         case "Equipment Losses":
             return AnyView(cellsEquipView(equipmentRecords: equipmentRecords))
@@ -77,7 +73,6 @@ struct EquipmentView: View {
         }
     }
 
-    
     private func cellsEquipView(equipmentRecords: [EquipmentLossesModel]) -> AnyView {
         return AnyView(
             Group {
@@ -101,13 +96,14 @@ struct EquipmentView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
                     .padding(.trailing)
-                }
+                }.padding(5)
                 List {
                     ForEach(filteredEquipmentRecords()) { record in
                         OneEquipCellView(oneRecordEquip: record)
                     }
                 }
-            })
+            }.background(Color.blue.opacity(1/8))
+        )
     }
     
     private func cellsPersonsView(personnelsRecords: [PersonnelLossesModel]) -> AnyView {
@@ -133,13 +129,14 @@ struct EquipmentView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
                     .padding(.trailing)
-                }
+                }.padding(5)
                 List {
                     ForEach(filteredPersonnelsRecords()) { record in
                         OnePersonCellView(oneRecordPerson: record)
                     }
                 }
-            })
+            }.background(Color.red.opacity(1/8))
+        )
     }
     
     private func cellsOryxView(oryxRecords: [OryxLossesModel]) -> AnyView {
@@ -165,31 +162,32 @@ struct EquipmentView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
                     .padding(.trailing)
-                }
+                }.padding(5)
                 List {
                     ForEach(filteredOryxRecords()) { record in
                         OneOryxCellView(oneRecordOryx: record)
                     }
                 }
-            })
+            }.background(Color.orange.opacity(1/8))
+        )
     }
     
     private func loadRecords() {
-        UrlLoadService.shared.fetchEquipJsonFromUrl (urlAddress: urlLossesEquipment) { fetchedRecords in
+        UrlLoadService.shared.fetchEquipJsonFromUrl (urlAddress: ConstURLs.urlLossesEquipment) { fetchedRecords in
                 if let fetchedRecords = fetchedRecords {
                     DispatchQueue.main.async {
                         self.equipmentRecords = fetchedRecords.sorted { $0.date > $1.date }
                     }
                 }
             }
-        UrlLoadService.shared.fetchPersonsJsonFromUrl (urlAddress: urlLossesPersonnel) { fetchedRecords in
+        UrlLoadService.shared.fetchPersonsJsonFromUrl (urlAddress: ConstURLs.urlLossesPersonnel) { fetchedRecords in
                 if let fetchedRecords = fetchedRecords {
                     DispatchQueue.main.async {
                         self.personnelsRecords = fetchedRecords.sorted { $0.date > $1.date }
                     }
                 }
             }
-        UrlLoadService.shared.fetchOryxJsonFromUrl (urlAddress: urlLossesEqOryx) { fetchedRecords in
+        UrlLoadService.shared.fetchOryxJsonFromUrl (urlAddress: ConstURLs.urlLossesEqOryx) { fetchedRecords in
                 if let fetchedRecords = fetchedRecords {
                     DispatchQueue.main.async {
                         self.oryxRecords = fetchedRecords.sorted { $0.lossesTotal ?? 0 > $1.lossesTotal ?? 0 }
@@ -226,9 +224,9 @@ struct EquipmentView: View {
     }
 }
 
-struct EquipmentView_Previews: PreviewProvider {
+struct GeneralView_Previews: PreviewProvider {
     static var previews: some View {
-        EquipmentView()
+        GeneralView()
             .environment(\.managedObjectContext,
                           PersistenceController.preview.container.viewContext)
     }

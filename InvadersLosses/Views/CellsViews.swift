@@ -14,7 +14,7 @@ struct OneEquipCellView: View {
     var body: some View {
         NavigationLink(destination: DetailsEquipView(oneRecord: oneRecordEquip)) {
             HStack {
-                Text("Day of war: \(oneRecordEquip.day)")
+                Text("Day: \(oneRecordEquip.day)")
                 Spacer()
                 Text("Date: \(formatDateToIso(dateInStr: oneRecordEquip.date))")
             }.padding(5)
@@ -28,10 +28,17 @@ struct OnePersonCellView: View {
     
     var body: some View {
         NavigationLink(destination: DetailsPersonsView(oneRecord: oneRecordPerson)) {
-            HStack {
-                Text("Day of war: \(oneRecordPerson.day)")
-                Spacer()
-                Text("Date: \(formatDateToIso(dateInStr: oneRecordPerson.date))")
+            VStack {
+                HStack {
+                    Text("Day: \(oneRecordPerson.day)")
+                    Spacer()
+                    Text("Losses: \(oneRecordPerson.personnel ?? 0)").frame(alignment: .trailing)
+                }
+                HStack{
+                    Text("Date: \(formatDateToIso(dateInStr: oneRecordPerson.date))").frame(alignment: .leading)
+                    Spacer()
+                }
+                
             }.padding(5)
         }
     }
